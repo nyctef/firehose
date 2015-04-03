@@ -15,6 +15,7 @@ def create_database(connection):
         with open(sql_file) as f:
             sql = f.read()
             cursor.execute(sql)
+    conn.commit()
     return conn
 
 
