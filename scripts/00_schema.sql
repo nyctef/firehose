@@ -1,7 +1,7 @@
 drop table if exists messages;
 
 create table messages (
-	id serial primary key
+	id serial primary key not null
 	, "type" text not null
 	, service text not null
 	, "group" text null
