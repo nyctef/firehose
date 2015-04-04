@@ -5,7 +5,7 @@ import_project_root()
 
 from config import DB_CONNECTION
 
-from queries import GetMessages
+from queries import Message, GetMessages, AddMessages
 
 class Messages(TestCase):
     @classmethod
@@ -17,6 +17,14 @@ class Messages(TestCase):
         get_messages = GetMessages(self._connection)
         result = get_messages()
         self.assertEqual('irc', result[0].type)
+
+    def test_can_add_a_message(self):
+        add_messages = AddMessages(self._connection)
+        messages = [Message('jabber', 'jabber.com', 'general@chat.jabber.com',
+            'foo', 'mention', 'hey you, do a thing', 'html')]
+        result = add_messages(messages)
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result[0], int)
 
 
 
