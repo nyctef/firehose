@@ -24,6 +24,7 @@ class Messages(TestCase):
             'foo', 'mention', 'hey you, do a thing', 'html')]
         result = add_messages(messages)
         self.assertIsNotNone(result)
+        # we return the id of the added messages
         self.assertIsInstance(result[0], int)
 
 
