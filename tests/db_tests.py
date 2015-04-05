@@ -33,14 +33,11 @@ class Messages(TestCase):
         q = queue.Queue()
         conn2 = psycopg2.connect(DB_CONNECTION)
         thread = spawn(wait_for_notify, conn2, q, 'test_notification')
-        #print('sleeping...')
-        sleep()
-        #print('notify...')
+        sleep() # let the notify thread start listening
         self._connection.cursor().execute('''
         notify test_notification;
         ''')
         self._connection.commit()
-        #print('notify done')
         self.assertIsNotNone(q.get())
         thread.kill()
 
