@@ -22,9 +22,9 @@ deps.get_connection = db.get_connection
 
 @app.route('/')
 def show_index():
+    log.info('index')
     get_messages = deps.GetMessages(deps.get_connection())
     messages = get_messages()
-    log.debug(messages)
     return render_template('index.jade', messages=messages)
 
 def create_message_instance(json):

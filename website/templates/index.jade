@@ -3,9 +3,11 @@
 html(lang="en")
   head
     title firehose
+    link(rel='stylesheet', type='text/css', href='static/style.css')
   body
     h1.title Messages
     ul.messages
       each message in messages
-        li!= message.body
+        li(class='message #{message.priority}')
+          | !{message.sender}: !{message.body}
 

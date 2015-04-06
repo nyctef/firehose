@@ -1,0 +1,23 @@
+/* vim: set expandtab ts=2 sw=2 : */
+
+li.message {
+  font-family: consolas;
+  border-radius: 5px;
+  padding: 2px 4px;
+  margin-bottom: 5px;
+  background-color: lightgrey;
+  list-style-type: none;
+}
+
+li.mention {
+  color: orange;
+  background-color: #505050;
+}
+
+li.ping {
+  color: red;
+  background-color: #505050;
+}
+
+
+  
