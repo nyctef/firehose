@@ -9,5 +9,5 @@ html(lang="en")
     ul.messages
       each message in messages
         li(class='message #{message.priority}')
-          | !{message.sender}: !{message.body}
+          !{message.sender}: !{message.body}
 
