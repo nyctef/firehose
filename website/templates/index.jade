@@ -1,8 +1,11 @@
-//- vim: expandtab:ts=2:sw=2:tw=2
+//- vim: expandtab:ts=2:sw=2
 !!! 5
 html(lang="en")
   head
     title firehose
   body
-    h1.title test
+    h1.title Messages
+    ul.messages
+      each message in messages
+        li= message.body
 

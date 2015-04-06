@@ -8,6 +8,7 @@ greenlet==0.4.5
 itsdangerous==0.24
 Jinja2==2.7.3
 MarkupSafe==0.23
+mock==1.0.1
 psycopg2==2.5.5
 pyjade==3.0.0
 six==1.9.0

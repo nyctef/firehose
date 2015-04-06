@@ -1,4 +1,5 @@
 from unittest import TestCase, main
+from mock import patch
 
 from config import DB_CONNECTION
 
@@ -8,6 +9,17 @@ import_project_root()
 import website
 import os
 import tempfile
+
+from queries import Message
+
+class FakeGetMessages:
+    def __init__(self, connection):
+        pass
+    def __call__(self):
+        return [Message('irc', 'freenode.net', '#chat', 'someguy', 'normal',
+            'a_message', 'plain'),
+                Message('irc', 'freenode.net', '#chat', 'someguy', 'normal',
+            'message_2', 'plain')]
 
 class Website(TestCase):
 
@@ -24,3 +36,8 @@ class Website(TestCase):
         response = self.app.get('/')
         assert response.status_code == 200
         assert 'firehose' in response.data
+
+    def test_index_displays_some_messages(self):
+        website.deps.GetMessages = FakeGetMessages
+        response = self.app.get('/')
+        assert 'message_2' in response.data
