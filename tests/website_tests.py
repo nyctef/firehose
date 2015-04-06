@@ -1,5 +1,5 @@
 from unittest import TestCase, main
-from mock import patch
+from mock import patch, Mock
 
 from config import DB_CONNECTION
 
@@ -9,8 +9,16 @@ import_project_root()
 import website
 import os
 import tempfile
+import json
 
 from queries import Message
+
+new_message_data = json.dumps({
+    'type': 'irc',
+    'service': 'freenode.net',
+    'body': 'a message body',
+    'format': 'plain',
+    })
 
 class FakeGetMessages:
     def __init__(self, connection):
@@ -20,6 +28,17 @@ class FakeGetMessages:
             'a_message', 'plain'),
                 Message('irc', 'freenode.net', '#chat', 'someguy', 'normal',
             'message_2', 'plain')]
+
+class FakeAddMessage:
+    def __init__(self, connection):
+        pass
+    def __call__(self, messages):
+        assert len(messages) == 1
+        assert messages[0].type is not None
+        assert messages[0].service is not None
+        assert messages[0].body is not None
+        return [1]
+
 
 class Website(TestCase):
 
@@ -38,6 +57,14 @@ class Website(TestCase):
         assert 'firehose' in response.data
 
     def test_index_displays_some_messages(self):
+        website.deps.get_connection = lambda: None
         website.deps.GetMessages = FakeGetMessages
         response = self.app.get('/')
         assert 'message_2' in response.data
+
+    def test_post_to_messages_creates_new_message(self):
+        website.deps.get_connection = lambda: None
+        website.deps.AddMessages = FakeAddMessage
+        response = self.app.post('/messages', data=new_message_data)
+        assert response.status_code == 201 # created
+        assert response.headers['location'].endswith('/messages/1')

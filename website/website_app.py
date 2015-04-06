@@ -1,8 +1,9 @@
-from flask import Flask, render_template, g
+from flask import Flask, render_template, g, request
 import config
 
-from queries import GetMessages
-from db import get_connection
+import queries
+from queries import Message
+import db
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config.SECRET_KEY
@@ -12,13 +13,28 @@ app.jinja_env.add_extension('pyjade.ext.jinja.PyJadeExtension')
 
 class Deps: pass
 deps = Deps()
-deps.GetMessages = GetMessages
-deps.get_connection = get_connection
+deps.GetMessages = queries.GetMessages
+deps.AddMessages = queries.AddMessages
+deps.get_connection = db.get_connection
 
 @app.route('/')
 def show_index():
     messages = deps.GetMessages(deps.get_connection())
     return render_template('index.jade', messages=messages())
+
+def create_message_instance(json):
+    fields = dict.fromkeys(Message._fields)
+    fields.update(json)
+    return Message(**fields)
+
+@app.route('/messages', methods=['POST'])
+def add_message():
+    add_messages = deps.AddMessages(deps.get_connection())
+    json = request.get_json(force=True)
+    message = create_message_instance(json)
+    result = add_messages([message])
+    return 'added', 201, {'location': '{}/messages/{}'.format(request.base_url,
+                            result[0])}
 
 if __name__ == '__main__':
     app.run()
