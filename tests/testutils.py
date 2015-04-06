@@ -11,7 +11,7 @@ def create_database(connection):
     cursor = conn.cursor()
     sql_files = glob('scripts/*.sql')
     for sql_file in sorted(sql_files):
-        print('running {}'.format(sql_file))
+        #print('running {}'.format(sql_file))
         with open(sql_file) as f:
             sql = f.read()
             cursor.execute(sql)

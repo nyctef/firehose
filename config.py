@@ -5,6 +5,8 @@ DB_CONNECTION="host='localhost' dbname='firehose' user='postgres' password='secr
 if 'DB_CONNECTION' in os.environ:
     DB_CONNECTION = os.environ.get('DB_CONNECTION')
 
+SECRET_KEY = 'temp secret key'
+
 try:
     local_config = __import__('config_local')
     DB_CONNECTION = local_config.DB_CONNECTION
