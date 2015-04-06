@@ -66,3 +66,12 @@ class Website(TestCase):
         response = self.app.post('/messages', data=new_message_data)
         assert response.status_code == 201 # created
         assert response.headers['location'].endswith('/messages/1')
+
+    def test_index_displays_html_from_html_messages(self):
+        website.deps.get_connection = lambda: None
+        website.deps.GetMessages = lambda x: lambda: [
+            Message('irc', 'freenode.net', '#chat', 'someguy', 'normal',
+            'a_message with <em>emphasis</em>', 'html')
+            ]
+        response = self.app.get('/')
+        assert '<em>emphasis</em>' in response.data

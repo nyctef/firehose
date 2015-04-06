@@ -8,4 +8,5 @@ values
 
 select add_message(1, '#general', 'someguy', 'ping', 'hey, what you doin', 'plain');
 select add_message(1, '#general', 'a.n.other', 'normal', 'this is a message', 'plain');
+select add_message(1, '#general', 'a.n.other', 'normal', 'this is a message with <em>emphasis</em>', 'html');
 
