@@ -8,6 +8,7 @@ html(lang="en")
     h1.title Messages
     ul.messages
       each message in messages
-        li(class='message #{message.priority}')
+        li(class='message #{message.priority}',
+           title='#{message.source.type}: #{message.source.service} #{message.group}')
           !{message.sender}: !{message.body}
 
