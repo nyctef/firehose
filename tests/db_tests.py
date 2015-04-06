@@ -4,7 +4,7 @@ from config import DB_CONNECTION
 
 from testutils import import_project_root, create_database
 import_project_root()
-from queries import Message, GetMessages, AddMessages
+from queries import Message, MessageSource, GetMessages, AddMessages
 from db import wait_for_notify
 from gevent import queue, spawn, sleep
 import psycopg2
@@ -18,12 +18,12 @@ class Messages(TestCase):
     def test_can_get_a_message(self):
         get_messages = GetMessages(self._connection)
         result = get_messages()
-        self.assertEqual('irc', result[0].type)
+        self.assertEqual('irc', result[0].source.type)
 
     def test_can_add_a_message(self):
         add_messages = AddMessages(self._connection)
-        messages = [Message('jabber', 'jabber.com', 'general@chat.jabber.com',
-            'foo', 'mention', 'hey you, do a thing', 'html')]
+        messages = [Message(MessageSource(1,None,None,None),
+            -1, 'general', 'foo', 'mention', 'hey you, do a thing', 'html')]
         result = add_messages(messages)
         self.assertIsNotNone(result)
         # we return the id of the added messages

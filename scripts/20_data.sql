@@ -1,10 +1,10 @@
-insert into messages (
-	"type"
+insert into message_sources (
+	type
 	, service
-	, "group"
-	, sender
-	, priority
-	, body
-	, format )
-values
-('irc', 'bnc.foo.net', '#general', 'someguy', 'ping', 'hey, what you doin', 'plain')
+	, config
+) 
+values 
+('irc', 'bnc.foo.net', '{"server":"bnc.foo.net", "channels":["general"]}');
+
+select add_message(1, '#general', 'someguy', 'ping', 'hey, what you doin', 'plain');
+

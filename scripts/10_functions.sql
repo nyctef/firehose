@@ -1,6 +1,5 @@
 create or replace function add_message(
-	type text
-	, service text
+	source_id int
 	, "group" text
 	, sender text
 	, priority text
@@ -16,8 +15,8 @@ new_message_id int;
 
 BEGIN
 
-insert into messages(id, type, service, "group", sender, priority, body, format)
-values (DEFAULT, type, service, "group", sender, priority, body, format)
+insert into messages(id, source_id, "group", sender, priority, body, format)
+values (DEFAULT, source_id, "group", sender, priority, body, format)
 returning id into new_message_id;
 
 return new_message_id;

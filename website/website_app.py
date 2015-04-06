@@ -2,7 +2,7 @@ from flask import Flask, render_template, g, request
 import config
 
 import queries
-from queries import Message
+from queries import Message, MessageSource
 import db
 
 app = Flask(__name__)
@@ -25,6 +25,7 @@ def show_index():
 def create_message_instance(json):
     fields = dict.fromkeys(Message._fields)
     fields.update(json)
+    fields['source'] = MessageSource(int(fields['source']), None,None,None)
     return Message(**fields)
 
 @app.route('/messages', methods=['POST'])

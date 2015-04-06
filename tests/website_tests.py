@@ -14,8 +14,7 @@ import json
 from queries import Message
 
 new_message_data = json.dumps({
-    'type': 'irc',
-    'service': 'freenode.net',
+    'source': 1,
     'body': 'a message body',
     'format': 'plain',
     })
@@ -34,8 +33,7 @@ class FakeAddMessage:
         pass
     def __call__(self, messages):
         assert len(messages) == 1
-        assert messages[0].type is not None
-        assert messages[0].service is not None
+        assert type(messages[0].source.id) is int
         assert messages[0].body is not None
         return [1]
 
