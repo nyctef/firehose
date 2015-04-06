@@ -7,5 +7,5 @@ html(lang="en")
     h1.title Messages
     ul.messages
       each message in messages
-        li= message.body
+        li!= message.body
 

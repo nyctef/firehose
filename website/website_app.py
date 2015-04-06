@@ -1,9 +1,12 @@
 from flask import Flask, render_template, g, request
-import config
+import logging
 
+import config
 import queries
 from queries import Message, MessageSource
 import db
+
+log = logging.getLogger(__name__)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config.SECRET_KEY
@@ -19,8 +22,10 @@ deps.get_connection = db.get_connection
 
 @app.route('/')
 def show_index():
-    messages = deps.GetMessages(deps.get_connection())
-    return render_template('index.jade', messages=messages())
+    get_messages = deps.GetMessages(deps.get_connection())
+    messages = get_messages()
+    log.debug(messages)
+    return render_template('index.jade', messages=messages)
 
 def create_message_instance(json):
     fields = dict.fromkeys(Message._fields)
@@ -38,4 +43,6 @@ def add_message():
                             result[0])}
 
 if __name__ == '__main__':
-    app.run()
+    logging.basicConfig(level=logging.DEBUG)
+    host, port = config.BASE_URL.split(':')
+    app.run(host=host, port=int(port))

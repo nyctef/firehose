@@ -19,3 +19,4 @@ def config_value(key, default=None):
 config_value('DB_CONNECTION', 
     "host='localhost' dbname='firehose' user='postgres' password='secret'")
 config_value('SECRET_KEY')
+config_value('BASE_URL', 'localhost:57143')

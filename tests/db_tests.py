@@ -4,7 +4,8 @@ from config import DB_CONNECTION
 
 from testutils import import_project_root, create_database
 import_project_root()
-from queries import Message, MessageSource, GetMessages, AddMessages
+from queries import Message, MessageSource, GetMessages, GetMessageSources, \
+    AddMessages
 from db import wait_for_notify
 from gevent import queue, spawn, sleep
 import psycopg2
@@ -42,3 +43,7 @@ class Messages(TestCase):
         self.assertIsNotNone(q.get())
         thread.kill()
 
+    def test_can_get_message_sources(self):
+        get_message_sources = GetMessageSources(self._connection)
+        result = get_message_sources()
+        self.assertEqual('irc', result[0].type)

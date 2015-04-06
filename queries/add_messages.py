@@ -11,4 +11,5 @@ class AddMessages:
             ''', (message.source.id, message.group, message.sender,
             message.priority, message.body, message.format))
             result.append(cursor.fetchone()[0])
+        self._connection.commit()
         return result
