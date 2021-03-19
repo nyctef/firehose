@@ -6,7 +6,7 @@ gevent-socketio==0.3.6
 gevent-websocket==0.9.3
 greenlet==0.4.5
 itsdangerous==0.24
-Jinja2==2.7.3
+Jinja2==2.11.3
 MarkupSafe==0.23
 mock==1.0.1
 psycopg2==2.5.5
